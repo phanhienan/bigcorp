@@ -9,7 +9,9 @@ $result = mysqli_query($db, "select Name, Address, username, password from user_
 //delete query
 if (isset($_GET['action']) && $_GET['action'] != "" && $_GET['action'] == 'delete') {
     $username = $_GET['username'];
+//    echo $username;
     mysqli_query($db, "delete from user_account where `username`='$username'") or die("query is incorrect...");
+    $result = mysqli_query($db, "select Name, Address, username, password from user_account where Type ='Cơ sở sản xuất'") or die ("Query incorrect.......");
 }
 
 // sort query
@@ -83,18 +85,19 @@ if (isset($_GET['clear'])) {
                                         <td colspan='4'>No Record Found</td>
                                     </tr>";
                                 }
-                                while ($row = $result->fetch_assoc()): ?>
+                                while (list($name, $address, $username, $pass) = mysqli_fetch_array($result)) {
+                                    ?>
                                     <tr>
-                                        <td><?php echo $row['Name']; ?></td>
-                                        <td><?php echo $row['Address']; ?></td>
-                                        <td><?php echo $row['username']; ?></td>
-                                        <td><?php echo $row['password']; ?></td>
+                                        <td><?php echo $name; ?></td>
+                                        <td><?php echo $address; ?></td>
+                                        <td><?php echo $username; ?></td>
+                                        <td><?php echo $pass; ?></td>
                                         <td><a class='btn btn-danger'
-                                               href='manageFactory.php?username=$username&action=delete'>Delete
+                                               href="manageFactory.php?username=<?php echo $username; ?>&action=delete">Delete
                                                 <div class='ripple-container'></div>
                                             </a></td>
                                     </tr>
-                                <?php endwhile; ?>
+                                <?php } ?>
                                 </tbody>
                             </table>
                             <div class="ps__rail-x" style="left: 0px; bottom: 0px;">

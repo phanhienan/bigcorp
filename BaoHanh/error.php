@@ -38,7 +38,7 @@ if (isset($_GET['clear'])) {
             <div class="col-md-14">
                 <div class="card ">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">Manage Store</h4>
+                        <h4 class="card-title">Error Product</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive ps">
@@ -57,23 +57,23 @@ if (isset($_GET['clear'])) {
                                 <thead class=" text-primary">
                                 <tr>
                                     <th>
-                                        <a href='manageStore.php?column=Name&action=sort&order=<?php echo $asc_or_desc; ?>'>Name
+                                        <a href='repaired.php?column=Name&action=sort&order=<?php echo $asc_or_desc; ?>'>Name
                                             <i
                                                     class="fas fa-sort<?php echo $column == 'Name' ? '-' . $up_or_down : ''; ?>"></i>
                                         </a>
                                     </th>
                                     <th>
-                                        <a href="manageStore.php?column=Address&action=sort&order=<?php echo $asc_or_desc; ?>">Address
+                                        <a href="repaired.php?column=Address&action=sort&order=<?php echo $asc_or_desc; ?>">Address
                                             <i
                                                     class="fas fa-sort<?php echo $column == 'Address' ? '-' . $up_or_down : ''; ?>"></i></a>
                                     </th>
                                     <th>
-                                        <a href="manageStore.php?column=username&action=sort&order=<?php echo $asc_or_desc; ?>">Username
+                                        <a href="repaired.php?column=username&action=sort&order=<?php echo $asc_or_desc; ?>">Username
                                             <i
                                                     class="fas fa-sort<?php echo $column == 'username' ? '-' . $up_or_down : ''; ?>"></i></a>
                                     </th>
                                     <th>User Password</th>
-                                    <th><a href="addAccount.php" class="btn btn-success">Add New</a></th>
+                                    <th><a href="add_products.php" class="btn btn-success">Add New</a></th>
                                 </tr>
                                 </thead>
                                 <tbody>

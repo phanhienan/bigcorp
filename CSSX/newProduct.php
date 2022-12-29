@@ -3,6 +3,16 @@ session_start();
 error_reporting(0);
 $con = new mysqli('localhost', 'root', '', 'cms');
 
+//export query
+if (isset($_POST['export'])) {
+    $all_id = $_POST['checkbox'];
+    $extract_id = implode(",", $all_id);
+//    echo $extract_id;
+//    mysqli_query($db, "delete from user_account where `username`='$username'") or die("query is incorrect...");
+//    $result = mysqli_query($db, "select Name, Address, username, password from user_account where Type ='Đại lý'") or die ("Query incorrect.......");
+}
+
+
 ///pagination
 $page = $_GET['page'];
 
@@ -30,7 +40,8 @@ include "topheader.php";
                                 <table class="table tablesorter " id="page1">
                                     <thead class=" text-primary">
                                     <tr>
-                                        <th></th>
+                                        <th><i class="material-icons" onclick="export()">ios_share</i></th>
+                                        <th>ID</th>
                                         <th>Image</th>
                                         <th>Name</th>
                                         <th>Price</th>
@@ -38,20 +49,19 @@ include "topheader.php";
                                     </thead>
                                     <tbody>
                                     <?php
-
                                     $result = mysqli_query($con, "select product_id,product_image, product_title,product_price from products  where  product_cat=2 or product_cat=3 or product_cat=4 Limit $page1,12") or die ("query 1 incorrect.....");
-
+                                    $id = 1;
                                     while (list($product_id, $image, $product_name, $price) = mysqli_fetch_array($result)) {
                                         echo "<tr>
-                                                <td><input type='checkbox' name='chk'/></td>
+                                                <td style='width: 10px; text-align: center;'>
+                                                <input type='checkbox' name='checkbox[]' value=" . $id . ">
+                                                </td>
+                                                <td>$id</td>
                                                 <td><img src='../product_images/$image' style='width:50px; height:50px; border:groove #000'></td>
                                                 <td>$product_name</td>
                                                 <td>$price</td>
                                                 </tr>";
-                                    }
-                                    if (isset($_GET['action']) && $_GET['action'] != "" && $_GET['action'] == 'delete') {
-                                        echo "<form><label>Đại lý</label><input type='text' name ='store'></form>";
-//                                        $product_id = $_GET['product_id'];
+                                        $id++;
                                     }
                                     ?>
                                     </tbody>
@@ -109,7 +119,6 @@ include "topheader.php";
             </div>
         </div>
     </div>
-
 <?php
 include "footer.php";
 ?>

@@ -27,7 +27,7 @@ include "topheader.php";
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item">
-                                        <a class="page-link" href="errorProduct.php?page=<?php echo $page==1? 1:$page-1;?>" aria-label="Previous">
+                                        <a class="page-link" href="products_list.php?page=<?php echo $page==1? 1:$page-1;?>" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                             <span class="sr-only">Previous</span>
                                         </a>
@@ -44,13 +44,13 @@ include "topheader.php";
                                     for ($b = 1; $b <= $a; $b++) {
                                         ?>
                                         <li class="page-item-<?php echo $b;?>"><a class="page-link"
-                                                                 href="errorProduct.php?page=<?php echo $b; ?>"><?php echo $b . " "; ?></a>
+                                                                 href="products_list.php?page=<?php echo $b; ?>"><?php echo $b . " "; ?></a>
                                         </li>
                                         <?php
                                     }
                                     ?>
                                     <li class="page-item">
-                                        <a class="page-link" href="errorProduct.php?page=<?php echo $page==$a? $a:$page+1;?>" aria-label="Next">
+                                        <a class="page-link" href="products_list.php?page=<?php echo $page==$a? $a:$page+1;?>" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                             <span class="sr-only">Next</span>
                                         </a>

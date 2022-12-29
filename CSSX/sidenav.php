@@ -47,12 +47,12 @@ if (isset($_GET['logout'])) {
                         <i class="material-icons">add</i>
                         <p>Add product</p>
                     </a>
+                </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="newProduct.php">
                         <i class="material-icons">factory</i>
                         <p>New products list</p>
                     </a>
-                </li>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="errorProduct.php">

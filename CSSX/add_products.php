@@ -2,105 +2,99 @@
 session_start();
 include("../connect_db.php");
 
+$email = $_SESSION['admin_name'];
+$result = mysqli_fetch_array(mysqli_query($db, "select * from user_account where username='$email'"));
+$factory = $result['Name'];
+$factory_add = $result['Address'];
+
 if (isset($_POST['btn_save'])) {
-    $product_name = $_POST['product_name'];
-    $details = $_POST['details'];
-    $price = $_POST['price'];
-    $c_price = $_POST['c_price'];
-    $product_type = $_POST['product_type'];
-    $brand = $_POST['brand'];
-    $tags = $_POST['tags'];
+    $productionID = $_POST['productionID'];
+    $row = mysqli_num_rows(mysqli_query($db, "select * from production where productionID = '$productionID'"));
+    if ($row == 0) {
+        $productLine = $_POST['productline'];
+        $details = $_POST['details'];
+        $ID_list = explode(", ", $details);
+        $importedDate = $_POST['importedDate'];
+        $productionDate = $_POST['productionDate'];
 
-//picture coding
-    $picture_name = $_FILES['picture']['name'];
-    $picture_type = $_FILES['picture']['type'];
-    $picture_tmp_name = $_FILES['picture']['tmp_name'];
-    $picture_size = $_FILES['picture']['size'];
+        // Cập nhật bảng lô sản phẩm
+        $s = "INSERT INTO production (productionID, productLineCode, facilityName, productionDate, importedDate) 
+                                VALUES ('$productionID', '$productLine', '$factory', '$productionDate', '$importedDate')";
+        mysqli_query($db, "INSERT INTO production (productionID, productLineCode, facilityName, productionDate, importedDate) 
+                                VALUES ('$productionID', '$productLine', '$factory', '$productionDate', '$importedDate')")
+        or die("query $s incorrect");
 
-    if ($picture_type == "image/jpeg" || $picture_type == "image/jpg" || $picture_type == "image/png" || $picture_type == "image/gif") {
-        if ($picture_size <= 50000000)
-
-            $pic_name = time() . "_" . $picture_name;
-        move_uploaded_file($picture_tmp_name, "../product_images/" . $pic_name);
-
-        mysqli_query($con, "insert into products (product_cat, product_brand,product_title,product_price, product_desc, product_image,product_keywords) values ('$product_type','$brand','$product_name','$price','$details','$pic_name','$tags')") or die ("query incorrect");
-
-        header("location: sumit_form.php?success=1");
+        // Thêm từng sản phẩm mới
+        $sql = "";
+        foreach ($ID_list as $id) {
+            $sql .= "INSERT INTO products (productCode, productionID, productLine, status, address) 
+            VALUES ('$id','$productionID', '$productLine', 'moi', '$factory_add');";
+        }
+        mysqli_multi_query($db, $sql) or die("query $sql incorrect");
+        echo "<script>alert('Đã nhập thành công')</script>";
     }
-
-    mysqli_close($con);
 }
 include "sidenav.php";
 include "topheader.php";
 ?>
-    <div class="content">
-        <div class="container-fluid">
-            <form action="" method="post" type="form" name="form" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header card-header-primary">
-                                <h5 class="title">Add Product</h5>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="row">
-
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Product Title</label>
-                                            <input type="text" id="product_name" required name="product_name"
-                                                   class="form-control">
-                                        </div>
+<div class="content">
+    <div class="container-fluid">
+        <form action="" method="post" type="form" name="form" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-primary">
+                            <h5 class="title">Add Product</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="bmd-label-floating">Lô sản xuất</label>
+                                        <input type="text" name="productionID" required
+                                               class="form-control">
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="">
-                                            <label for="">Add Image</label>
-                                            <input type="file" name="picture" required class="btn btn-fill btn-success"
-                                                   id="picture">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Description</label>
-                                            <textarea rows="4" cols="80" id="details" required name="details"
-                                                      class="form-control"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Pricing</label>
-                                            <input type="text" id="price" name="price" required class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Category</label>
-                                            <select name="categoy" id="category" class="form-control" required>
-                                                <option value="Kho sản phẩm mới" style="background-color: dimgrey">Kho
-                                                    sản phẩm mới
-                                                </option>
-                                                <option value="Kho sản phẩm lỗi" style="background-color: dimgrey">Kho
-                                                    sản phẩm lỗi
-                                                </option>
-                                            </select>
-                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group">
+                                        <label class="bmd-label-floating">Mã dòng sản phẩm</label>
+                                        <input type="text" name="productline" required
+                                               class="form-control">
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer">
-                                <button type="submit" id="btn_save" name="btn_save" required
-                                        class="btn btn-fill btn-primary">Update Product
-                                </button>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-group bmd-form-group">Ngày sản xuất</label>
+                                    <input type="date" name="productionDate" required class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-group bmd-form-group">Ngày nhập kho</label>
+                                    <input type="date" name="importedDate" required class="form-control">
+                                </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="form-group bmd-form-group">
+                                    <label class="bmd-label-floating">Mã sản phẩm
+                                        <em>(Lưu ý: Mã sản phẩm trong lô, ngăn cách nhau bởi dấu phẩy , )</em>
+                                    </label>
+                                    <textarea rows="5" cols="80" id="details" required name="details"
+                                              class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" id="btn_save" name="btn_save" required
+                                    class="btn btn-fill btn-primary">Add Product
+                            </button>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
+        </form>
 
-        </div>
     </div>
+</div>
 <?php
 include "footer.php";
 ?>

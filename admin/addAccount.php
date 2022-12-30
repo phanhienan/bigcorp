@@ -10,9 +10,10 @@ if (isset($_POST['btn_save'])) {
     $username = $_POST['email'];
     $user_password = md5($_POST['password']);
     $title = $_POST['title'];
-    $row = mysqli_fetch_array(mysqli_query($db, "select * from user_account where `username` = '$username'"));
+    $row = mysqli_num_rows(mysqli_query($db, "select * from user_account where `username` = '$username'"));
     if ($row == 0) {
-        $query = "insert into user_account(`Name`, `Address`,username,`password`,`Type`) values ('$name','$address','$username','$user_password','$title')";
+        $query = "insert into user_account(`Name`, `Address`,username,`password`,`Type`) 
+                  values ('$name','$address','$username','$user_password','$title')";
         mysqli_query($db, $query);
         echo "<script>alert('Đã tạo tài khoản thành công')</script>";
     } else {

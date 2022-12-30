@@ -1,27 +1,9 @@
 <?php
 session_start();
 error_reporting(0);
-$con = new mysqli('localhost', 'root', '', 'cms');
-
-if (isset($_GET['action']) && $_GET['action'] != "" && $_GET['action'] == 'delete') {
-    $product_id = $_GET['product_id'];
-///////picture delete/////////
-    $result = mysqli_query($con, "select product_image from products where product_id='$product_id'")
-    or die("query is incorrect...");
-
-    list($picture) = mysqli_fetch_array($result);
-    $path = "../product_images/$picture";
-
-    if (file_exists($path) == true) {
-        unlink($path);
-    } else {
-    }
-    /*this is delet query*/
-    mysqli_query($con, "delete from products where product_id='$product_id'") or die("query is incorrect...");
-}
+include("../connect_db.php");
 
 ///pagination
-
 $page = $_GET['page'];
 
 if ($page == "" || $page == "1") {
@@ -32,38 +14,54 @@ if ($page == "" || $page == "1") {
 include "sidenav.php";
 include "topheader.php";
 ?>
-    <!-- End Navbar -->
     <div class="content">
         <div class="container-fluid">
-
-
             <div class="col-md-14">
                 <div class="card ">
                     <div class="card-header card-header-primary">
                         <h4 class="card-title"> Selled products List</h4>
-
                     </div>
                     <div class="card-body">
                         <div class="table-responsive ps">
                             <table class="table tablesorter " id="page1">
                                 <thead class=" text-primary">
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Name</th>
-                                    <th>Price</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Dòng sản phẩm</th>
+                                    <th>Lô sản phẩm</th>
+                                    <th>Đại lý</th>
+                                    <th>Ngày xuất</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php
-
-                                $result = mysqli_query($con, "select product_id,product_image, product_title,product_price from products  where  product_cat=2 or product_cat=3 or product_cat=4 Limit $page1,12") or die ("query 1 incorrect.....");
-
-                                while (list($product_id, $image, $product_name, $price) = mysqli_fetch_array($result)) {
-                                    echo "<tr><td><img src='../product_images/$image' style='width:50px; height:50px; border:groove #000'></td><td>$product_name</td>
-                        <td>$price</td>
-                       </tr>";
+                                // lấy tên của cơ sở sản xuất
+                                $email = $_SESSION['admin_name'];
+                                $query = mysqli_fetch_array(mysqli_query($db, "select * from user_account where username='$email'"));
+                                $factory = $query['Name'];
+                                //truy vấn lấy những lô của cssx đã chuyển cho đại lý
+                                $sql = "SELECT * FROM product WHERE productCode IN
+                                (SELECT productCode from import where facilityName = '$factory')
+                                Limit $page1,12";
+                                $result = mysqli_query($db, $sql) or die ("query $sql incorrect.....");
+                                if (mysqli_num_rows($result) == 0) {
+                                    echo "
+                                    <tr>
+                                        <td colspan='4'>No Record Found</td>
+                                    </tr>";
                                 }
-
+                                while (list($productCode, $productionID, $productLine) = mysqli_fetch_array($result)) {
+                                    $rs = mysqli_fetch_array(mysqli_query($db, "select * from import  where productCode = '$productCode'"));
+                                    $vendor = $rs['vendorName'];
+                                    $date = $rs['importedDate'];
+                                    echo "<tr>
+                                                <td>$productCode</td>
+                                                <td>$productLine</td>
+                                                <td>$productionID</td>
+                                                <td>$vendor</td>
+                                                <td>$date</td>
+                                                </tr>";
+                                }
                                 ?>
                                 </tbody>
                             </table>
@@ -79,41 +77,37 @@ include "topheader.php";
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
+                            <a class="page-link" href="selledProduct.php?page=<?php echo $page == 1 ? 1 : $page - 1; ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                                 <span class="sr-only">Previous</span>
                             </a>
                         </li>
                         <?php
                         //counting paging
-
-                        $paging = mysqli_query($con, "select product_id,product_image, product_title,product_price from products");
+                        $ $sql = "SELECT * FROM product WHERE productCode IN
+                                (SELECT productCode from import where facilityName = '$factory')";
+                        $paging = mysqli_query($db, $sql);
                         $count = mysqli_num_rows($paging);
-
                         $a = $count / 10;
                         $a = ceil($a);
 
                         for ($b = 1; $b <= $a; $b++) {
                             ?>
                             <li class="page-item"><a class="page-link"
-                                                     href="productlist.php?page=<?php echo $b; ?>"><?php echo $b . " "; ?></a>
+                                                     href="selledProduct.php?page=<?php echo $b; ?>"><?php echo $b . " "; ?></a>
                             </li>
                             <?php
                         }
                         ?>
                         <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
+                            <a class="page-link" href="selledProduct.php?page=<?php echo $page == $a ? $a : $page + 1; ?>" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                                 <span class="sr-only">Next</span>
                             </a>
                         </li>
                     </ul>
                 </nav>
-
-
             </div>
-
-
         </div>
     </div>
 <?php

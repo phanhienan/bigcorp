@@ -3,15 +3,14 @@ session_start();
 include "sidenav.php";
 include "topheader.php";
 include("../connect_db.php");
-
-$result = mysqli_query($db, "select Name, Address, username, password from user_account where Type ='Trung tâm bảo hành'") or die ("Query incorrect.......");
+$sql = "select Name, Address, username, password from user_account where Type ='Trung tâm bảo hành'";
+$result = mysqli_query($db, $sql) or die ("Query incorrect.......");
 
 //delete query
 if (isset($_GET['action']) && $_GET['action'] != "" && $_GET['action'] == 'delete') {
     $username = $_GET['username'];
-//    echo $username;
     mysqli_query($db, "delete from user_account where `username`='$username'") or die("query is incorrect...");
-    $result = mysqli_query($db, "select Name, Address, username, password from user_account where Type ='Trung tâm bảo hành'") or die ("Query incorrect.......");
+    $result = mysqli_query($db, $sql) or die ("Query incorrect.......");
 }
 
 // sort query
@@ -21,17 +20,19 @@ $sort_order = isset($_GET['order']) && strtolower($_GET['order']) == 'desc' ? 'D
 $up_or_down = str_replace(array('ASC', 'DESC'), array('up', 'down'), $sort_order);
 $asc_or_desc = $sort_order == 'ASC' ? 'desc' : 'asc';
 if (isset($_GET['action']) && $_GET['action'] != "" && $_GET['action'] == 'sort') {
-    $result = $db->query('SELECT * FROM user_account where Type="Trung tâm bảo hành" ORDER BY ' . $column . ' ' . $sort_order);
+    $result = $db->query('SELECT Name, Address, username, password FROM user_account 
+                                where Type="Trung tâm bảo hành" ORDER BY ' . $column . ' ' . $sort_order);
 }
 // search query
 if (isset($_GET['search'])) {
     $filtervalues = $_GET['search'];
-    $query = "SELECT * FROM user_account WHERE Type ='Trung tâm bảo hành' and CONCAT(Name,Address,Type,username) LIKE '%$filtervalues%' ";
+    $query = "SELECT Name, Address, username, password FROM user_account 
+              WHERE Type ='Trung tâm bảo hành' and CONCAT(Name,Address,Type,username) LIKE '%$filtervalues%' ";
     $result = mysqli_query($db, $query);
 }
 // clear filter search
 if (isset($_GET['clear'])) {
-    $result = mysqli_query($db, "select Name, Address, username, password from user_account where Type ='Trung tâm bảo hành'") or die ("Query incorrect.......");
+    $result = mysqli_query($db, $sql) or die ("Query incorrect.......");
 }
 ?>
     <div class="content">
@@ -49,7 +50,10 @@ if (isset($_GET['clear'])) {
                                 if (isset($_GET['search'])) {
                                     $filtervalues = $_GET['search'];
                                     echo "<span>
-                                        Filter: " . $filtervalues . "  <a href='manageWarrantyCenter.php?clear=" . $filtervalues . "'><i class='material-icons'>cancel</i></a>
+                                        Filter: " . $filtervalues .
+                                        "<a href='manageWarrantyCenter.php?clear=" . $filtervalues . "'>
+                                        <i class='material-icons'>cancel</i>
+                                        </a>
                                         </span>";
                                 }
                                 ?>
@@ -59,19 +63,16 @@ if (isset($_GET['clear'])) {
                                 <tr>
                                     <th>
                                         <a href='manageWarrantyCenter.php?column=Name&action=sort&order=<?php echo $asc_or_desc; ?>'>Name
-                                            <i
-                                                    class="fas fa-sort<?php echo $column == 'Name' ? '-' . $up_or_down : ''; ?>"></i>
+                                            <i class="fas fa-sort<?php echo $column == 'Name' ? '-' . $up_or_down : ''; ?>"></i>
                                         </a>
                                     </th>
                                     <th>
                                         <a href="manageWarrantyCenter.php?column=Address&action=sort&order=<?php echo $asc_or_desc; ?>">Address
-                                            <i
-                                                    class="fas fa-sort<?php echo $column == 'Address' ? '-' . $up_or_down : ''; ?>"></i></a>
+                                            <i class="fas fa-sort<?php echo $column == 'Address' ? '-' . $up_or_down : ''; ?>"></i></a>
                                     </th>
                                     <th>
                                         <a href="manageWarrantyCenter.php?column=username&action=sort&order=<?php echo $asc_or_desc; ?>">Username
-                                            <i
-                                                    class="fas fa-sort<?php echo $column == 'username' ? '-' . $up_or_down : ''; ?>"></i></a>
+                                            <i class="fas fa-sort<?php echo $column == 'username' ? '-' . $up_or_down : ''; ?>"></i></a>
                                     </th>
                                     <th>User Password</th>
                                     <th><a href="addAccount.php" class="btn btn-success">Add New</a></th>

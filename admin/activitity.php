@@ -1,5 +1,18 @@
 <?php
 include("../connect_db.php");
+
+
+if (isset($_GET['page_layout'])) {
+    switch ($_GET['page_layout']) {
+        case 'factory';
+            include 'statistic.php';
+            break;
+
+        case 'product_mgmt';
+            include 'product_mgmt.php';
+            break;
+    }
+}
 ?>
 
 <div class="row" style="padding-top: 10vh;">
@@ -25,14 +38,12 @@ include("../connect_db.php");
         <div class="card card-stats">
             <div class="card-header card-header-success card-header-icon">
                 <div class="card-icon">
-                    <i class="material-icons">factory</i>
+                    <a href="statistic.php"><i class="material-icons">factory</i></a>
                 </div>
                 <p class="card-category">Total Factories</p>
                 <h3 class="card-title">
                     <?php $query = "SELECT * FROM user_account where  Type = 'Cơ sở sản xuất'";
-                    $result = mysqli_query($db, $query);
-                    $row = mysqli_num_rows($result);
-                    echo $row;
+                    echo mysqli_num_rows(mysqli_query($db, $query));
                     ?>
                 </h3>
             </div>
@@ -43,14 +54,12 @@ include("../connect_db.php");
         <div class="card card-stats">
             <div class="card-header card-header-danger card-header-icon">
                 <div class="card-icon">
-                    <i class="material-icons">store</i>
+                    <a href="index.php?page_layout=store"><i class="material-icons">store</i></a>
                 </div>
                 <p class="card-category">Total Stores</p>
                 <h3 class="card-title">
                     <?php $query = "SELECT * FROM user_account where  Type = 'Đại lý'";
-                    $result = mysqli_query($db, $query);
-                    $row = mysqli_num_rows($result);
-                    echo $row;
+                    echo mysqli_num_rows(mysqli_query($db, $query));
                     ?>
                 </h3>
             </div>
@@ -61,18 +70,15 @@ include("../connect_db.php");
         <div class="card card-stats">
             <div class="card-header card-header-info card-header-icon">
                 <div class="card-icon">
-                    <i class="material-icons">construction</i>
+                    <a href="index.php?page_layout=warranty"><i class="material-icons">construction</i></a>
                 </div>
                 <p class="card-category">Total Warranty Centers</p>
                 <h3 class="card-title">
                     <?php $query = "SELECT * FROM user_account where  Type = 'Trung tâm bảo hành'";
-                    $result = mysqli_query($db, $query);
-                    $row = mysqli_num_rows($result);
-                    echo $row;
+                    echo mysqli_num_rows(mysqli_query($db, $query));
                     ?>
                 </h3>
             </div>
-
         </div>
     </div>
 </div>

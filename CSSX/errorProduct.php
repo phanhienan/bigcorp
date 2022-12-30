@@ -1,119 +1,143 @@
 <?php
 session_start();
 error_reporting(0);
-$con = new mysqli('localhost', 'root', '', 'cms');
+include("../connect_db.php");
+$email = $_SESSION['admin_name'];
+$result = mysqli_fetch_array(mysqli_query($db, "select * from user_account where username='$email'"));
+$factory = $result['Name'];
+$factory_add = $result['Address'];
 
-if (isset($_GET['action']) && $_GET['action'] != "" && $_GET['action'] == 'delete') {
-    $product_id = $_GET['product_id'];
-///////picture delete/////////
-    $result = mysqli_query($con, "select product_image from products where product_id='$product_id'")
-    or die("query is incorrect...");
-
-    list($picture) = mysqli_fetch_array($result);
-    $path = "../product_images/$picture";
-
-    if (file_exists($path) == true) {
-        unlink($path);
+//nhập sản phẩm sản phẩm lỗi
+if (isset($_GET['productCode'])) {
+    $ID = $_GET['productCode'];
+    $row = mysqli_num_rows(mysqli_query($db, "select * from product where productCode = '$ID'"));
+    if ($row == 0) {
+        echo "<script>alert('Mã sản phẩm không tồn tại')</script>";
     } else {
+        mysqli_query($db, "UPDATE products set status='traLaiCSSX', address = '$factory_add' WHERE productCode = '$ID'")
+        or die("query $ID incorrect...");
+        echo "<script>alert('Đã thêm thành công')</script>";
     }
-    /*this is delet query*/
-    mysqli_query($con, "delete from products where product_id='$product_id'") or die("query is incorrect...");
 }
 
 ///pagination
-
 $page = $_GET['page'];
-
 if ($page == "" || $page == "1") {
     $page1 = 0;
 } else {
-    $page1 = ($page * 10) - 10;
+    $page1 = ($page - 1) * 12;
 }
 include "sidenav.php";
 include "topheader.php";
 ?>
-    <!-- End Navbar -->
     <div class="content">
         <div class="container-fluid">
-
-
-            <div class="col-md-14">
-                <div class="card ">
-                    <div class="card-header card-header-primary">
-                        <h4 class="card-title"> Error products List</h4>
-
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive ps">
-                            <table class="table tablesorter " id="page1">
-                                <thead class=" text-primary">
-                                <tr>
-                                    <th>Image</th>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-
-                                $result = mysqli_query($con, "select product_id,product_image, product_title,product_price from products  where  product_cat=2 or product_cat=3 or product_cat=4 Limit $page1,12") or die ("query 1 incorrect.....");
-
-                                while (list($product_id, $image, $product_name, $price) = mysqli_fetch_array($result)) {
-                                    echo "<tr><td><img src='../product_images/$image' style='width:50px; height:50px; border:groove #000'></td><td>$product_name</td>
-                        <td>$price</td>
-                        </tr>";
-                                }
-
-                                ?>
-                                </tbody>
-                            </table>
-                            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card ">
+                        <div class="card-header card-header-primary">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <h3 class="card-title">Error products List</h3></div>
+                                <a class="btn btn-success"
+                                   href="errorProduct.php?action=addproduct">Add New
+                                </a>
                             </div>
-                            <div class="ps__rail-y" style="top: 0px; right: 0px;">
-                                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive ps">
+                                <?php
+                                if (isset($_GET['action']) && $_GET['action'] != "" && $_GET['action'] == 'addproduct') {
+                                    echo "<span>
+                                        Mã sản phẩm: <form action='' method='get'><input type='text' name = 'productCode'></form>
+                                        </span>";
+                                }
+                                ?>
+                                <table class="table tablesorter " id="page1">
+                                    <thead class=" text-primary">
+                                    <tr>
+                                        <th>Mã sản phẩm</th>
+                                        <th>Dòng sản phẩm</th>
+                                        <th>Cơ sở sản xuất</th>
+                                        <th>Đại lý</th>
+                                        <th>Trung tâm bảo hành</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $result = mysqli_query("SELECT productCode, productLine FROM product 
+                                                            WHERE status ='traLaiCSSX' and address ='$factory_add'
+                                                            Limit $page1,12");
+                                    if (mysqli_num_rows($result) == 0) {
+                                        echo "
+                                    <tr>
+                                        <td colspan='4'>No Record Found</td>
+                                    </tr>";
+                                    }
+                                    while (list($productCode, $productLine) = mysqli_fetch_array($result)) {
+                                        $rs = mysqli_fetch_array(mysqli_query($db, "select * from orderstatus where productCode = '$productCode'"));
+                                        $factory = $rs['facilityname'];
+                                        $vendor = $rs['vendorName'];
+                                        $warranty = $rs['servicecenter'];
+                                        echo "<tr>
+                                                <td>$productCode</td>
+                                                <td>$productLine</td>
+                                                <td>$factory</td>
+                                                <td>$vendor</td>
+                                                <td>$warranty</td>
+                                                </tr>";
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
+                                <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                                    <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                                </div>
+                                <div class="ps__rail-y" style="top: 0px; right: 0px;">
+                                    <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
-                        <?php
-                        //counting paging
-
-                        $paging = mysqli_query($con, "select product_id,product_image, product_title,product_price from products");
-                        $count = mysqli_num_rows($paging);
-
-                        $a = $count / 10;
-                        $a = ceil($a);
-
-                        for ($b = 1; $b <= $a; $b++) {
-                            ?>
-                            <li class="page-item"><a class="page-link"
-                                                     href="productlist.php?page=<?php echo $b; ?>"><?php echo $b . " "; ?></a>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="errorProduct.php?page=<?php echo $page == 1 ? 1 : $page - 1; ?>"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
                             </li>
                             <?php
-                        }
-                        ?>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
 
+                            //counting paging
+                            $paging = mysqli_query($db, "SELECT productCode, productLine FROM product WHERE status ='traLaiCSSX'");
+                            $count = mysqli_num_rows($paging);
 
+                            $a = $count / 10;
+                            $a = ceil($a);
+
+                            for ($b = 1; $b <= $a; $b++) {
+                                ?>
+                                <li class="page-item"><a class="page-link"
+                                                         href="errorProduct.php?page=<?php echo $b; ?>"><?php echo $b . " "; ?></a>
+                                </li>
+                                <?php
+                            }
+                            ?>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="errorProduct.php?page=<?php echo $page == $a ? $a : $page + 1; ?>"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
-
-
         </div>
     </div>
 <?php

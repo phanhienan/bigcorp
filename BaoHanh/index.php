@@ -12,7 +12,7 @@ include "activitity.php";
             <div class="col-md-14">
                 <div class="card ">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title"> Products List</h4>
+                        <h4 class="card-title"> Sản phẩm đang bảo hành</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive ps">
@@ -30,16 +30,35 @@ include "activitity.php";
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <!--                      --><?php //
-                                //                        $result=mysqli_query($con,"select * from user_info")or die ("query 1 incorrect.....");
-                                //
-                                //                        while(list($user_id,$first_name,$last_name,$email,$password,$phone,$address1,$address2)=mysqli_fetch_array($result))
-                                //                        {
-                                //                        echo "<tr><td>$user_id</td><td>$first_name</td><td>$last_name</td><td>$email</td><td>$password</td><td>$phone</td><td>$address1</td><td>$address2</td>
-                                //
-                                //                        </tr>";
-                                //                        }
-                                //                        ?>
+                                    <?php
+                                        $result=mysqli_query($db,"SELECT p.productCode, o.warrantyDate, p.status, o.vendorName
+                                            FROM product p INNER JOIN orderstatus o
+                                            ON p.productCode = o.productCode
+                                            WHERE p.status = 'dangBaoHanh' OR status ='baoHanhXong' OR status='traLaiCSSX'")or die ("query 2 incorrect.......");
+                                            
+                                            if($result) {
+                                                while(list($productCode,$warrantyDate,$status,$vendorName)=mysqli_fetch_array($result))
+                                                {
+                                                    $state="";
+                                                    if($status == 'dangBaoHanh') {
+                                                        $state = "Đang bảo hành";
+                                                    } else if ($status == 'baoHanhXong') {
+                                                        $state = "Bảo Hành Xong";
+                                                    } else {
+                                                        $state = "Lỗi không thể sửa";
+                                                    }
+                                                echo "<tr>
+                                                <td>$productCode</td>
+                                                <td>$warrantyDate</td>
+                                                <td>$state</td>
+                                                <td>$vendorName</td>
+                        
+                                                </tr>";
+                                                }
+                                        
+                                            }
+                                            mysqli_close($db);
+                                    ?>
                                 </tbody>
                             </table>
                             <div class="ps__rail-x" style="left: 0px; bottom: 0px;">

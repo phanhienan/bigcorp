@@ -19,14 +19,11 @@ if (isset($_GET['logout'])) {
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>
-        BIGCORP|WarrantyCenter
+        BIGCORP|Factory
     </title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
     <!--     Fonts and icons     -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-          crossorigin="anonymous">
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
@@ -45,24 +42,23 @@ if (isset($_GET['logout'])) {
                         <p>Dashboard</p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="warrantyProduct.php">
+                        <i class="material-icons">list</i>
+                        <p>Warranty Products</p>
+                    </a>
+
+                </li>
+
                 <li class="nav-item ">
-                    <a class="nav-link" href="add_products.php">
-                        <i class="material-icons">add</i>
-                        <p>Add product</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="repaired.php">
-                        <i class="material-icons">done_outline</i>
-                        <p>Repaired Products List</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="error.php">
+                    <a class="nav-link" href="returnProduct.php">
                         <i class="material-icons">error</i>
-                        <p>Error Products List</p>
+                        <p>Return Products</p>
                     </a>
+
                 </li>
+               
                 <li class="nav-item ">
                     <a class="nav-link" href="profile.php">
                         <icons-image _ngcontent-aye-c22="" _nghost-aye-c19=""><i _ngcontent-aye-c19=""

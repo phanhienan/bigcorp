@@ -24,11 +24,11 @@ if (isset($_GET['page_layout'])) {
                 </div>
                 <p class="card-category">Total products</p>
                 <h3 class="card-title">
-                    <!--                    --><?php //$query = "SELECT * FROM user_account where  Type = 'Cơ sở sản xuất'";
-                    //                    $result = mysqli_query($db, $query);
-                    //                    $row = mysqli_num_rows($result);
-                    //                    echo $row;
-                    //                    ?>
+                    <h3 class="card-title">
+                        <?php $query = "SELECT * FROM product";
+                        echo mysqli_num_rows(mysqli_query($db, $query));
+                        ?>
+                    </h3>
                 </h3>
             </div>
 

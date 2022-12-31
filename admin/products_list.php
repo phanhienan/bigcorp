@@ -13,7 +13,7 @@ if ($page == "" || $page == "1") {
 } else {
     $page1 = ($page - 1) * 12;
 }
-$sql = "select productCode, productName, productionID, status, address from product";
+$sql = "select productCode, productLine, productionID, status, address from product";
 $result = mysqli_query($db, $sql) or die ("query 1 incorrect.....");
 // search query
 if (isset($_GET['search'])) {

@@ -58,20 +58,20 @@ if (isset($_GET['clear'])) {
                                 <thead class=" text-primary">
                                 <tr>
                                     <th>
-                                        <a href='manageStore.php?column=Name&action=sort&order=<?php echo $asc_or_desc; ?>'>Name
+                                        <a href='manageStore.html?column=Name&action=sort&order=<?php echo $asc_or_desc; ?>'>Name
                                             <i class="fas fa-sort<?php echo $column == 'Name' ? '-' . $up_or_down : ''; ?>"></i>
                                         </a>
                                     </th>
                                     <th>
-                                        <a href="manageStore.php?column=Address&action=sort&order=<?php echo $asc_or_desc; ?>">Address
+                                        <a href="manageStore.html?column=Address&action=sort&order=<?php echo $asc_or_desc; ?>">Address
                                             <i class="fas fa-sort<?php echo $column == 'Address' ? '-' . $up_or_down : ''; ?>"></i></a>
                                     </th>
                                     <th>
-                                        <a href="manageStore.php?column=username&action=sort&order=<?php echo $asc_or_desc; ?>">Username
+                                        <a href="manageStore.html?column=username&action=sort&order=<?php echo $asc_or_desc; ?>">Username
                                             <i class="fas fa-sort<?php echo $column == 'username' ? '-' . $up_or_down : ''; ?>"></i></a>
                                     </th>
                                     <th>User Password</th>
-                                    <th><a href="addAccount.php" class="btn btn-success">Add New</a></th>
+                                    <th><a href="addAccount.html" class="btn btn-success">Add New</a></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -90,7 +90,7 @@ if (isset($_GET['clear'])) {
                                         <td><?php echo $username; ?></td>
                                         <td><?php echo $pass; ?></td>
                                         <td><a class='btn btn-danger'
-                                               href="manageStore.php?username=<?php echo $username; ?>&action=delete">Delete
+                                               href="manageStore.html?username=<?php echo $username; ?>&action=delete">Delete
                                                 <div class='ripple-container'></div>
                                             </a></td>
                                     </tr>

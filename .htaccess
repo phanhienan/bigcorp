@@ -1,0 +1,22 @@
+RewriteEngine On
+RewriteRule "index.html" "index.php"
+
+#admin page
+RewriteRule "./admin.html" "./admin/index.php"
+RewriteRule "./addAccount.html" "./admin/addAccount.php"
+RewriteRule "./products_list.html" "./admin/products_list.php"
+RewriteRule "./manageFactory.html" "./admin/manageFactory.php"
+RewriteRule "./manageStore.html" "./admin/manageStore.php"
+RewriteRule "./profile.html" "./admin/profile.php"
+RewriteRule "./manageWarrantyCenter.html" "./admin/manageWarrantyCenter.php"
+RewriteRule "./manageStore.html" "./admin/manageStore.php"
+
+#facility page
+RewriteRule "./CSSX.html" "./CSSX/index.php"
+RewriteRule "./add_products.html" "./CSSX/add_products.php"
+RewriteRule "./newProduct.html" "./CSSX/newProduct.php"
+RewriteRule "./errorProduct.html" "./CSSX/errorProduct.php"
+RewriteRule "./selledProduct.html" "./CSSX/selledProduct.php"
+RewriteRule "./profile.html" "./CSSX/profile.php"
+
+

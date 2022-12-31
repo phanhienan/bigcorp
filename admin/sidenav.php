@@ -40,46 +40,46 @@ if (isset($_GET['logout'])) {
         <div class="sidebar-wrapper">
             <ul class="nav">
                 <li class="nav-item active  ">
-                    <a class="nav-link" href="index.php">
+                    <a class="nav-link" href="admin.html">
                         <i class="material-icons">dashboard</i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="addAccount.php">
+                    <a class="nav-link" href="addAccount.html">
                         <i class="material-icons">person</i>
                         <p>Add account</p>
                     </a>
 
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="products_list.php">
+                    <a class="nav-link" href="products_list.html">
                         <i class="material-icons">list</i>
                         <p>Product List</p>
                     </a>
 
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="manageFactory.php">
+                    <a class="nav-link" href="manageFactory.html">
                         <i class="material-icons">factory</i>
                         <p>Manage Factories</p>
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="manageStore.php">
+                    <a class="nav-link" href="manageStore.html">
                         <i class="material-icons">store</i>
                         <p>Manage Stores</p>
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="manageWarrantyCenter.php">
+                    <a class="nav-link" href="manageWarrantyCenter.html">
                         <i class="material-icons">construction</i>
                         <p>Manage Warranty Centers</p>
                     </a>
                 </li>
 
                 <li class="nav-item ">
-                    <a class="nav-link" href="profile.php">
+                    <a class="nav-link" href="profile.html">
                         <icons-image _ngcontent-aye-c22="" _nghost-aye-c19=""><i _ngcontent-aye-c19=""
                                                                                  class="material-icons icon-image-preview">settings</i>
                         </icons-image>

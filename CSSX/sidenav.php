@@ -37,31 +37,31 @@ if (isset($_GET['logout'])) {
         <div class="sidebar-wrapper">
             <ul class="nav">
                 <li class="nav-item active  ">
-                    <a class="nav-link" href="index.php">
+                    <a class="nav-link" href="CSSX.html">
                         <i class="material-icons">dashboard</i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="add_products.php">
+                    <a class="nav-link" href="add_products.html">
                         <i class="material-icons">add</i>
                         <p>Add product</p>
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="newProduct.php">
+                    <a class="nav-link" href="newProduct.html">
                         <i class="material-icons">factory</i>
                         <p>New products list</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="errorProduct.php">
+                    <a class="nav-link" href="errorProduct.html">
                         <i class="material-icons">error</i>
                         <p>Error products List</p>
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="selledProduct.php">
+                    <a class="nav-link" href="selledProduct.html">
                         <i class="material-icons">store</i>
                         <p>Selled products List</p>
                     </a>

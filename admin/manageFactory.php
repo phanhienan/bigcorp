@@ -51,7 +51,7 @@ if (isset($_GET['clear'])) {
                                 if (isset($_GET['search'])) {
                                     $filtervalues = $_GET['search'];
                                     echo "<span>
-                                        Filter: " . $filtervalues . "  <a href='manageFactory.php?clear=" . $filtervalues . "'>
+                                        Filter: " . $filtervalues . "  <a href='manageFactory.html?clear=" . $filtervalues . "'>
                                         <i class='material-icons'>cancel</i></a>
                                         </span>";
                                 }
@@ -74,7 +74,7 @@ if (isset($_GET['clear'])) {
                                             <i class="fas fa-sort<?php echo $column == 'username' ? '-' . $up_or_down : ''; ?>"></i></a>
                                     </th>
                                     <th>User Password</th>
-                                    <th><a href="addAccount.php" class="btn btn-success">Add New</a></th>
+                                    <th><a href="addAccount.html" class="btn btn-success">Add New</a></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -93,7 +93,7 @@ if (isset($_GET['clear'])) {
                                         <td><?php echo $username; ?></td>
                                         <td><?php echo $pass; ?></td>
                                         <td><a class='btn btn-danger'
-                                               href="manageFactory.php?username=<?php echo $username; ?>&action=delete">Delete
+                                               href="manageFactory.html?username=<?php echo $username; ?>&action=delete">Delete
                                                 <div class='ripple-container'></div>
                                             </a></td>
                                     </tr>

@@ -11,11 +11,14 @@ include "activitity.php";
     <div class="col-md-12">
         <div class="card">
             <div class="card-header card-header-primary">
-                <h4 class="card-title"> Statistic Product</h4>
+                <h4 class="card-title"> Thống kê sản phẩm</h4>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
+                        <div class="card-header card-header-text">
+                            <h4 class="card-title"> Theo trạng thại</h4>
+                        </div>
                         <div class="table-responsive ps">
                             <table class="table table-hover tablesorter ">
                                 <thead class=" text-primary">
@@ -36,6 +39,9 @@ include "activitity.php";
                         </div>
                     </div>
                     <div class="col-md-4">
+                        <div class="card-header card-header-text">
+                            <h4 class="card-title"> Theo Cơ sở sản xuất</h4>
+                        </div>
                         <div class="table-responsive ps">
                             <table class="table table-hover tablesorter ">
                                 <thead class=" text-primary">
@@ -56,6 +62,9 @@ include "activitity.php";
                         </div>
                     </div>
                     <div class="col-md-4">
+                        <div class="card-header card-header-text">
+                            <h4 class="card-title"> Theo đại lý phân phối</h4>
+                        </div>
                         <div class="table-responsive ps">
                             <table class="table table-hover tablesorter ">
                                 <thead class=" text-primary">
@@ -79,10 +88,10 @@ include "activitity.php";
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title"> Factories List</h4>
+                        <h4 class="card-title">Danh sách cơ sở sản xuất</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive ps">
@@ -121,10 +130,10 @@ include "activitity.php";
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card ">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">Stores List</h4>
+                        <h4 class="card-title">Danh sách đại lý</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive ps">
@@ -163,44 +172,44 @@ include "activitity.php";
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-5">
-            <div class="card ">
-                <div class="card-header card-header-primary">
-                    <h4 class="card-title">Warranty Centers Lists</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive ps">
-                        <table class="table table-hover tablesorter " id="">
-                            <thead class=" text-primary">
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Address</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            $result = mysqli_query($db, "select * from user_account where Type = 'Trung tâm bảo hành'") or die ("query incorrect.....");
-                            $i = 1;
-                            while ($row = $result->fetch_assoc()) {
-                                ?>
+            <div class="col-md-4">
+                <div class="card ">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Danh sách trung tâm bảo hành</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive ps">
+                            <table class="table table-hover tablesorter " id="">
+                                <thead class=" text-primary">
                                 <tr>
-                                    <td><?php echo $i ?></td>
-                                    <td><?php echo $row['Name']; ?></td>
-                                    <td><?php echo $row['Address']; ?></td>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 <?php
-                                $i++;
-                            }
-                            ?>
-                            </tbody>
-                        </table>
-                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-                        </div>
-                        <div class="ps__rail-y" style="top: 0px; right: 0px;">
-                            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                                $result = mysqli_query($db, "select * from user_account where Type = 'Trung tâm bảo hành'") or die ("query incorrect.....");
+                                $i = 1;
+                                while ($row = $result->fetch_assoc()) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $i ?></td>
+                                        <td><?php echo $row['Name']; ?></td>
+                                        <td><?php echo $row['Address']; ?></td>
+                                    </tr>
+                                    <?php
+                                    $i++;
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                                <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                            </div>
+                            <div class="ps__rail-y" style="top: 0px; right: 0px;">
+                                <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

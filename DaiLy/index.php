@@ -1,6 +1,6 @@
 <?php
 session_start();
-//include("../../db.php");
+include("../connect_db.php");
 
 include "sidenav.php";
 include "topheader.php";
@@ -12,34 +12,41 @@ include "activitity.php";
             <div class="col-md-14">
                 <div class="card ">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title"> Products List</h4>
+                        <h4 class="card-title"> Sản phẩm cần triệu hồi</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive ps">
                             <table class="table table-hover tablesorter " id="">
                                 <thead class=" text-primary">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>FirstName</th>
-                                    <th>LastName</th>
-                                    <th>Email</th>
-                                    <th>Password</th>
-                                    <th>Contact</th>
-                                    <th>Address</th>
-                                    <th>City</th>
+                                    <th>Product Code</th>
+                                    <th>Customer ID</th>
+                                    <th>Customer Address</th>
+                                    <th>Facility</th>
+                                    
+                                
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <!--                      --><?php //
-                                //                        $result=mysqli_query($con,"select * from user_info")or die ("query 1 incorrect.....");
-                                //
-                                //                        while(list($user_id,$first_name,$last_name,$email,$password,$phone,$address1,$address2)=mysqli_fetch_array($result))
-                                //                        {
-                                //                        echo "<tr><td>$user_id</td><td>$first_name</td><td>$last_name</td><td>$email</td><td>$password</td><td>$phone</td><td>$address1</td><td>$address2</td>
-                                //
-                                //                        </tr>";
-                                //                        }
-                                //                        ?>
+                                     <?php 
+                                    $result=mysqli_query($db,"SELECT o.productCode, o.customerID, c.address, o.facilityName
+                                    FROM customer c INNER JOIN orderstatus o INNER JOIN product p 
+                                    ON c.customerID = o.customerID AND p.productCode = o.productCode
+                                    WHERE p.status = 'canTrieuHoi'") or die ("query 1 incorrect.....");
+                                    if($result) {
+                                        while(list($productCode,$customerID,$customerAddress,$facilityName)=mysqli_fetch_array($result))
+                                        {
+                                        echo "<tr>
+                                        <td>$productCode</td>
+                                        <td>$customerID</td>
+                                        <td>$customerAddress</td>
+                                        <td>$facilityName</td>
+                
+                                        </tr>";
+                                        }
+                                    }
+                                    
+                                ?>
                                 </tbody>
                             </table>
                             <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
@@ -52,38 +59,42 @@ include "activitity.php";
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
+            
+                <div class="col-md-14">
                     <div class="card ">
                         <div class="card-header card-header-primary">
-                            <h4 class="card-title"> Factories List</h4>
+                            <h4 class="card-title">Sản phẩm đang bảo hành</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive ps">
                                 <table class="table table-hover tablesorter " id="">
                                     <thead class=" text-primary">
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Categories</th>
-                                        <th>Count</th>
+                                        <th>Product Code</th>
+                                        <th>Warranty Date</th>
+                                        <th>Service Center</th>
+                                        <th>Warranty Times</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <!--                      --><?php //
-                                    //                        $result=mysqli_query($con,"select * from categories")or die ("query 1 incorrect.....");
-                                    //                        $i=1;
-                                    //                        while(list($cat_id,$cat_title)=mysqli_fetch_array($result))
-                                    //                        {
-                                    //                            $sql = "SELECT COUNT(*) AS count_items FROM products WHERE product_cat=$i";
-                                    //                            $query = mysqli_query($con,$sql);
-                                    //                            $row = mysqli_fetch_array($query);
-                                    //                            $count=$row["count_items"];
-                                    //                            $i++;
-                                    //                        echo "<tr><td>$cat_id</td><td>$cat_title</td><td>$count</td>
-                                    //
-                                    //                        </tr>";
-                                    //                        }
-                                    //                        ?>
+                                    <?php 
+                                        $result=mysqli_query($db,"SELECT p.productCode, o.warrantyDate, o.servicecenter, o.warrantyTimes
+                                        FROM product p INNER JOIN orderstatus o 
+                                        ON p.productCode = o.productCode
+                                        WHERE p.status = 'dangBaoHanh'") or die ("query 1 incorrect.....");
+                                        if($result) {
+                                            while(list($productCode,$warrantyDate,$servicecenter,$warantyTimes)=mysqli_fetch_array($result))
+                                            {
+                                            echo "<tr>
+                                            <td>$productCode</td>
+                                            <td>$warrantyDate</td>
+                                            <td>$servicecenter</td>
+                                            <td>$warantyTimes</td>
+                    
+                                            </tr>";
+                                            }
+                                        }
+                                      ?>
                                     </tbody>
                                 </table>
                                 <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
@@ -96,38 +107,41 @@ include "activitity.php";
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-14">
                     <div class="card ">
                         <div class="card-header card-header-primary">
-                            <h4 class="card-title">Stores List</h4>
+                            <h4 class="card-title">Sản phẩm đã bán</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive ps">
                                 <table class="table table-hover tablesorter " id="">
                                     <thead class=" text-primary">
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Brands</th>
-                                        <th>Count</th>
+                                        <th>Product Code</th>
+                                        <th>Customer ID</th>
+                                        <th>Customer Address</th>
+                                        <th>Warranty Times</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <!--                      --><?php //
-                                    //                        $result=mysqli_query($con,"select * from brands")or die ("query 1 incorrect.....");
-                                    //                        $i=1;
-                                    //                        while(list($brand_id,$brand_title)=mysqli_fetch_array($result))
-                                    //                        {
-                                    //
-                                    //                            $sql = "SELECT COUNT(*) AS count_items FROM products WHERE product_brand=$i";
-                                    //                            $query = mysqli_query($con,$sql);
-                                    //                            $row = mysqli_fetch_array($query);
-                                    //                            $count=$row["count_items"];
-                                    //                            $i++;
-                                    //                        echo "<tr><td>$brand_id</td><td>$brand_title</td><td>$count</td>
-                                    //
-                                    //                        </tr>";
-                                    //                        }
-                                    //                        ?>
+                                    <?php
+                                            $result=mysqli_query($db,"SELECT p.productCode, c.customerID, c.address, o.warrantyTimes 
+                                            FROM product p INNER JOIN orderstatus o INNER JOIN customer c 
+                                            ON p.productCode = o.productCode AND c.customerID = o.customerID
+                                            WHERE p.orderStatus ='paid'")or die ("query 1 incorrect.....");
+                                            if($result) {
+                                                while(list($productCode,$customerID,$customerAddress,$warantyTimes)=mysqli_fetch_array($result))
+                                                {
+                                                echo "<tr>
+                                                <td>$productCode</td>
+                                                <td>$customerID</td>
+                                                <td>$customerAddress</td>
+                                                <td>$warantyTimes</td>
+                        
+                                                </tr>";
+                                                }
+                                            }
+                                     ?>
                                     </tbody>
                                 </table>
                                 <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
@@ -140,8 +154,8 @@ include "activitity.php";
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-5">
+            
+            <!-- <div class="col-md-14">
                 <div class="card ">
                     <div class="card-header card-header-primary">
                         <h4 class="card-title">Warranty Centers Lists</h4>
@@ -152,12 +166,12 @@ include "activitity.php";
                                 <thead class=" text-primary">
                                 <tr>
                                     <th>ID</th>
-                                    <th>email</th>
+                                    <th>facilityName</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <!--                      --><?php //
-                                //                        $result=mysqli_query($con,"select * from email_info")or die ("query 1 incorrect.....");
+                                //                        $result=mysqli_query($con,"select * from facilityName_info")or die ("query 1 incorrect.....");
                                 //
                                 //                        while(list($brand_id,$brand_title)=mysqli_fetch_array($result))
                                 //                        {
@@ -177,7 +191,7 @@ include "activitity.php";
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
         </div>

@@ -10,7 +10,7 @@
                 <div class="card-icon">
                     <i class="material-icons">pallet</i>
                 </div>
-                <p class="card-category">Total products</p>
+                <p class="card-category">Sản phẩm cần triệu hồi</p>
                 <h3 class="card-title">
                     <!--                      --><?php // $query = "SELECT user_id FROM user_info";
                     //                                      $result = mysqli_query($con, $query);
@@ -34,7 +34,7 @@
                 <div class="card-icon">
                     <i class="material-icons">factory</i>
                 </div>
-                <p class="card-category">Total Factories</p>
+                <p class="card-category">Sản phẩm đang bảo hành</p>
 <!--                <h3 class="card-title"> --><?php //$query = "SELECT cat_id FROM categories";
 //                    $result = mysqli_query($con, $query);
 //                    if ($result) {
@@ -55,7 +55,7 @@
                 <div class="card-icon">
                     <i class="material-icons">store</i>
                 </div>
-                <p class="card-category">Total Stores</p>
+                <p class="card-category">Sản phẩm đã bán</p>
 <!--                <h3 class="card-title">--><?php //$query = "SELECT user_id FROM user_info";
 //                    $result = mysqli_query($con, $query);
 //                    if ($result) {
@@ -76,7 +76,7 @@
                 <div class="card-icon">
                     <i class="material-icons">construction</i>
                 </div>
-                <p class="card-category">Total Warranty Centers</p>
+                <p class="card-category">Sản phẩm lỗi không thể sửa</p>
 <!--                <h3 class="card-title">--><?php //$query = "SELECT order_id FROM orders_info";
 //                    $result = mysqli_query($con, $query);
 //                    if ($result) {

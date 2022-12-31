@@ -4,30 +4,31 @@ include("../connect_db.php");
 
 $email = $_SESSION['admin_name'];
 $result = mysqli_fetch_array(mysqli_query($db, "select * from user_account where username='$email'"));
-$factory = $result['Name'];
-$factory_add = $result['Address'];
+$factory = trim($result['Name']);
+$factory_add = trim($result['Address']);
 
 if (isset($_POST['btn_save'])) {
     $productionID = $_POST['productionID'];
     $row = mysqli_num_rows(mysqli_query($db, "select * from production where productionID = '$productionID'"));
     if ($row == 0) {
-        $productLine = $_POST['productline'];
+        $productLineCode = $_POST['productline'];
         $details = $_POST['details'];
         $ID_list = explode(", ", $details);
         $importedDate = $_POST['importedDate'];
         $productionDate = $_POST['productionDate'];
 
         // Cập nhật bảng lô sản phẩm
-        $s = "INSERT INTO production (productionID, productLineCode, facilityName, productionDate, importedDate) 
-                                VALUES ('$productionID', '$productLine', '$factory', '$productionDate', '$importedDate')";
+        $s = mysqli_fetch_array(mysqli_query($db, "select * from productline where productLineCode = '$productLineCode'"));
+        $productLine = $s['productLine'];
+
         mysqli_query($db, "INSERT INTO production (productionID, productLineCode, facilityName, productionDate, importedDate) 
-                                VALUES ('$productionID', '$productLine', '$factory', '$productionDate', '$importedDate')")
+                                VALUES ('$productionID', '$productLineCode', '$factory', '$productionDate', '$importedDate')")
         or die("query $s incorrect");
 
         // Thêm từng sản phẩm mới
         $sql = "";
         foreach ($ID_list as $id) {
-            $sql .= "INSERT INTO products (productCode, productionID, productLine, status, address) 
+            $sql .= "INSERT INTO product (productCode, productionID, productLine, status, address) 
             VALUES ('$id','$productionID', '$productLine', 'moi', '$factory_add');";
         }
         mysqli_multi_query($db, $sql) or die("query $sql incorrect");

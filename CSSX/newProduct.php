@@ -3,6 +3,11 @@ session_start();
 error_reporting(0);
 include("../connect_db.php");
 
+$email = $_SESSION['admin_name'];
+$result = mysqli_fetch_array(mysqli_query($db, "select * from user_account where username='$email'"));
+$factory = trim($result['Name']);
+$factory_add = trim($result['Address']);
+
 ///pagination
 $page = $_GET['page'];
 
@@ -41,7 +46,8 @@ include "topheader.php";
                                     <tbody>
                                     <?php
                                     $result = mysqli_query($db, "select productCode, productionID, productLine from product
-                                              where status = 'moi' Limit $page1,12")
+                                              where status = 'moi' and address = '$factory_add'
+                                              Limit $page1,12")
                                     or die ("query 1 incorrect.....");
                                     if (mysqli_num_rows($result) == 0) {
                                         echo "
@@ -86,7 +92,8 @@ include "topheader.php";
                             <?php
 
                             //counting paging
-                            $paging = mysqli_query($db, "select * from products where status = 'moi'");
+                            $paging = mysqli_query($db, "select * from product
+                                              where status = 'moi' and address = '$factory_add'");
                             $count = mysqli_num_rows($paging);
 
                             $a = $count / 10;

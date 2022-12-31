@@ -4,8 +4,8 @@ error_reporting(0);
 include("../connect_db.php");
 $email = $_SESSION['admin_name'];
 $result = mysqli_fetch_array(mysqli_query($db, "select * from user_account where username='$email'"));
-$factory = $result['Name'];
-$factory_add = $result['Address'];
+$factory = trim($result['Name']);
+$factory_add = trim($result['Address']);
 
 //nhập sản phẩm sản phẩm lỗi
 if (isset($_GET['productCode'])) {
@@ -14,8 +14,8 @@ if (isset($_GET['productCode'])) {
     if ($row == 0) {
         echo "<script>alert('Mã sản phẩm không tồn tại')</script>";
     } else {
-        mysqli_query($db, "UPDATE products set status='traLaiCSSX', address = '$factory_add' WHERE productCode = '$ID'")
-        or die("query $ID incorrect...");
+        mysqli_query($db, "UPDATE product set status='traLaiCSSX', address = '$factory_add' WHERE productCode = '$ID'")
+        or die("query select * from product where productCode = '$ID' incorrect...");
         echo "<script>alert('Đã thêm thành công')</script>";
     }
 }
@@ -65,9 +65,10 @@ include "topheader.php";
                                     </thead>
                                     <tbody>
                                     <?php
-                                    $result = mysqli_query("SELECT productCode, productLine FROM product 
-                                                            WHERE status ='traLaiCSSX' and address ='$factory_add'
-                                                            Limit $page1,12");
+                                    $result = mysqli_query($db, "select productCode, productLine from product
+                                              where status = 'traLaiCSSX' and address = '$factory_add'
+                                              Limit $page1,12")
+                                    or die ("query 1 incorrect.....");
                                     if (mysqli_num_rows($result) == 0) {
                                         echo "
                                     <tr>
@@ -75,7 +76,8 @@ include "topheader.php";
                                     </tr>";
                                     }
                                     while (list($productCode, $productLine) = mysqli_fetch_array($result)) {
-                                        $rs = mysqli_fetch_array(mysqli_query($db, "select * from orderstatus where productCode = '$productCode'"));
+                                        $rs = mysqli_fetch_array(mysqli_query($db, "select * from orderstatus where productCode = '$productCode'"))
+                                        or die("query incorect");
                                         $factory = $rs['facilityname'];
                                         $vendor = $rs['vendorName'];
                                         $warranty = $rs['servicecenter'];
@@ -112,7 +114,8 @@ include "topheader.php";
                             <?php
 
                             //counting paging
-                            $paging = mysqli_query($db, "SELECT productCode, productLine FROM product WHERE status ='traLaiCSSX'");
+                            $paging = mysqli_query($db, "select productCode, productLine from product
+                                              where status = 'traLaiCSSX' and address = '$factory_add'");
                             $count = mysqli_num_rows($paging);
 
                             $a = $count / 10;

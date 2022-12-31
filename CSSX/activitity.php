@@ -36,7 +36,8 @@ $factory_add = $query['Address'];
                 <p class="card-category">Total new products</p>
                 <h3 class="card-title">
                     <?php
-                    $query = "SELECT * FROM product WHERE 'status' = 'moi' and productionID IN (SELECT productionID FROM production WHERE facilityName = '$factory')";
+                    $query = "select productCode, productionID, productLine from product
+                                              where status = 'moi' and address = '$factory_add'";
                     $row = mysqli_num_rows(mysqli_query($db, $query));
                     echo $row;
                     ?>
